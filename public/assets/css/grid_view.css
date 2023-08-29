@@ -1,0 +1,32 @@
+.grid_view{
+    display: grid; grid-template-columns: repeat(4, 1fr); gap:20px;
+}
+@media screen and (max-width: 1720px) {
+    .grid_view{
+         grid-template-columns: repeat(3, 1fr); gap:20px;
+    }
+  }@media screen and (max-width: 1080px) {
+    .grid_view{
+         grid-template-columns: repeat(2, 1fr); gap:20px;
+    }
+  }
+  @media screen and (max-width: 750px) {
+    .grid_view{
+         grid-template-columns: repeat(1, 1fr); gap:20px;
+    }
+    
+  }
+  @media screen and (max-width: 4150px) {
+    .grid_button{
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: normal;
+        gap: 10px;
+    }
+  }
+
+
+.align_tr {
+  display: flex;
+  align-items: center;
+}

@@ -1,0 +1,1 @@
+should use stock in instead of editing product qty directly
