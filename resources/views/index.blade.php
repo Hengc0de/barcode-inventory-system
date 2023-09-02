@@ -93,8 +93,131 @@
                     </div><!-- End Customers Card -->
 
                     <!-- Reports -->
-                    
+                    <div class="col-6">
+                        <div class="card recent-sales overflow-auto">
+{{-- 
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                {{-- <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"> --}}
+                                    {{-- <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li> --}}
 
+                                    {{-- <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li> --}}
+                                {{-- </ul>
+                            </div> --}} 
+
+                            <div class="card-body">
+                                <h5 class="card-title">Product List</h5>
+
+                                <table class="table table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Product name</th>
+                                            <th scope="col">Qty</th>
+                                            <th scope="col">Price</th>
+                                           
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($products as $product)
+                                        @if ($product->product_qty <= 10 && $product->product_qty > 5)
+                                        <tr style="background-color: rgb(237, 213, 103) !important;">
+                                            <td  style="background:none"scope="row"><a href="#">{{$product->id}}</a></td>
+                                            <td style="background:none">{{$product->product_name}}</td>
+                                            <td  style="background:none">{{$product->product_qty}}</td>
+                                            <td  style="background:none"><span class="badge bg-success">${{$product->product_price}}</span></td>
+                                   
+                                            
+                                          
+                                        </tr>
+                                        @elseif ($product->product_qty <= 5)
+                                        <tr style="background-color: rgb(189, 24, 57) !important;">
+                                            <td  style="background:none"scope="row"><a href="#">{{$product->id}}</a></td>
+                                            <td style="background:none">{{$product->product_name}}</td>
+                                            <td  style="background:none">{{$product->product_qty}}</td>
+                                            <td  style="background:none"><span class="badge bg-success">${{$product->product_price}}</span></td>
+                                   
+                                            
+                                          
+                                        </tr>
+                                        @else
+                                        <tr >
+                                            <td  style="background:none"scope="row"><a href="#">{{$product->id}}</a></td>
+                                            <td style="background:none">{{$product->product_name}}</td>
+                                            <td  style="background:none">{{$product->product_qty}}</td>
+                                            <td  style="background:none"><span class="badge bg-success">${{$product->product_price}}</span></td>
+                                   
+                                            
+                                          
+                                        </tr>
+                                        @endif
+          
+                                     
+                                        @endforeach
+
+                                       
+                                    </tbody>
+                                </table>
+                                <a href="{{route('product.index')}}" class="btn-primary btn ">View All Product</a>
+
+                            </div>
+
+                        </div>
+                    </div><!-- End Recent Sales -->
+                    <div class="col-6">
+                        <div class="card recent-sales overflow-auto">
+{{-- 
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                {{-- <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"> --}}
+                                    {{-- <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li> --}}
+
+                                    {{-- <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li> --}}
+                                {{-- </ul>
+                            </div> --}} 
+
+                            <div class="card-body">
+                                <h5 class="card-title">Product List</h5>
+
+                                <table class="table table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Category name</th>
+                                            <th scope="col">Description</th>
+                                           
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($categories as $category)
+                                        <tr>
+                                            <th scope="row"><a href="#">{{$category->catid}}</a></th>
+                                            <td>{{$category->category_name}}</td>
+                                            <td>{{substr($category->description, 0, 15)}}...</td>
+                                   
+                                            
+                                          
+                                        </tr>
+                                     
+                                        @endforeach
+
+                                       
+                                    </tbody>
+                                </table>
+                                <a href="{{route('category.index')}}" class="btn-primary btn ">View All Category</a>
+
+                            </div>
+
+                        </div>
+                    </div><!-- End Recent Sales -->
                     <!-- Recent Sales -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">

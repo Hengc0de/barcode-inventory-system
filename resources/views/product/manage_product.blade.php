@@ -64,28 +64,35 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($products as $product)
-
+         
                                         <tr  class="align_tr">
                                             <th scope="row">{{$product->id}}</th>
-                                            <td>                                    @if (!empty($product->product_img))
+                                            <td style="background-color:none !important">                                    @if (!empty($product->product_img))
                                                 <img src="{{url('upload/products/'.$product->product_img)}}" id="product" width="50px" height="50px" alt="Profile" >
                                                 @else
                                                 <img src="{{url('upload/noimage.jpg') }}" alt="Profile"  id="product" width="50px" height="50px" >
                                   
                                                  @endif</td>
-                                            <td>{{$product->product_name}}</td>
-                                            <td>{{$product->product_price}}$</td>
-                                            <td>{{$product->product_qty}}</td>
-                                            <td>{{$product->category_name}}</td>
-                                            <td> {!! DNS1D::getBarcodeHTML("$product->product_code", 'PHARMA')!!} <span class="text-secondary">{{$product->product_code  }}</span></td>
+                                            <td style="background-color:none !important">{{$product->product_name}}</td>
+                                            <td style="background-color:none !important">{{$product->product_price}}$</td>
+                                            @if ($product->product_qty >5 && $product->product_qty <=10)
+                                            <td><p style="color: black !important; background-color: rgb(237, 213, 103); padding: 5px; border-radius:5px">{{$product->product_qty}} Left</p></td>
+                                            @elseif ($product->product_qty <= 5)
+                                            <td><p style="color: rgb(241, 241, 241) !important; background-color: rgb(189, 24, 57); padding: 5px; border-radius:5px">Only {{$product->product_qty}} Left! </p> </td>
+                                            @else
+                                            <td><p >{{$product->product_qty}}</p></td>
+
+                                            @endif
+                                            <td style="background-color:none !important">{{$product->category_name}}</td>
+                                            <td style="background-color:none !important"> {!! DNS1D::getBarcodeHTML("$product->product_code", 'PHARMA')!!} <span class="text-secondary">{{$product->product_code  }}</span></td>
                                             @foreach ($suppliers as $supplier)
                                             @if ($supplier->id == $product->supplier_id)
-                                            <td>{{$supplier->supplier_name}}</td>
+                                            <td style="background-color:none !important">{{$supplier->supplier_name}}</td>
                                                 
                                             @endif
                                                 
                                             @endforeach
-                                            <td>
+                                            <td >
                                                 <div class="d-flex justify-content-around">
 
 
@@ -128,6 +135,8 @@
       
 
                                         </tr>
+                                      
+                                        
 
                                         <!-- 
                                     <div class="modal fade" id="ModalDelete{{$product->id}}" tabindex="-1" role="dialog"

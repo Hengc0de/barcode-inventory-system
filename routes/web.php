@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/category/delete_category/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
     Route::post('/category/add_category/add', [CategoryController::class, 'add'])->name('category.add');
-    Route::get('/category/manage_category', [CategoryController::class, 'index']);
+    Route::get('/category/manage_category', [CategoryController::class, 'index'])->name('category.index');
 
 
 

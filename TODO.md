@@ -6,6 +6,11 @@ Project Description
 
 ### Todo
 
+- [ ] Make User Account with Discount Credit System  
+- [ ] Make Employee Account  
+- [ ] Recently Deleted Page  
+- [ ] add back button to invoice view  
+- [ ] select option with keyboard  
 - [ ] stock in button  
 - [ ] make active link aside dynamic  
 - [ ] add barcode to invoice  
@@ -20,5 +25,7 @@ Project Description
 
 ### Done ✓
 
+- [x] Stock Level Control  
+- [x] Add Category and Product List to Dashboard  
 - [x] Add supplier  
 
