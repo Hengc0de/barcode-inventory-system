@@ -63,7 +63,7 @@
             // for create add new
             $('#add_more').click(function() {
                 $('#bodycat').append(
-                    '<tr><td><input type="text" name="product_name" class="product_name form-control"></td><td><input type="number" name="product_qty" class="product_qty form-control"></td><td><input type="number" name="product_price" class="product_price form-control"></td><td><input type="number" name="product_discount" class="product_discount form-control"></td><td><input type="number" name="product_total" class="product_total form-control"></td><td><a href="#" class="remove btn btn-danger" >Remove</a></a></tr>'
+                    '<tr><td><input type="text" name="product_name" class="product_name form-control"></td><td><input type="number" name="product_qty"  class="product_qty form-control"></td><td><input type="number" name="product_price" class="product_price form-control"></td><td><input type="number" name="product_discount" class="product_discount form-control"></td><td><input type="number" name="product_total" class="product_total form-control"></td><td><a href="#" class="remove btn btn-danger" >Remove</a></a></tr>'
                     );
                 //alert("testing");
                                
@@ -175,8 +175,9 @@
           
                     var customer_name= $('.customer_name').val();
                     var grand_total= $('.grand_total').val();
-                    var product_id= $('.product_id').val();
-                    
+                    var product_id= $('.product_id').map(function() {
+                        return $(this).val();
+                    }).get();
                     
                      var product_name= $('.product_name').map(function() {
                         return $(this).val();
@@ -201,7 +202,7 @@
                       
                         'dbconcustomer_name':customer_name,
                         'dbcongrand_total':grand_total,
-                        'dbconproduct_id':product_id,
+                        'dbconproduct_id[]':product_id,
                         'dbconproduct_name[]': product_name,
                         'dbconproduct_qty[]': product_qty,
                         'dbconproduct_price[]': product_price,
@@ -326,7 +327,7 @@
         
                                        
                                  
-                                        <td><input type="number" value="{{$item->qty}}"  name="product_qty" class="product_qty form-control"></td>
+                                        <td><input type="number" value="{{$item->qty}}"  name="product_qty"  class="product_qty form-control"></td>
                                         
                                         <td><input type="number" value="{{$product->product_price}}"  name="product_price" class="product_price form-control"></td>
                                         <td><input type="number" name="product_discount" value="0" placeholder="%"  class="product_discount form-control"></td>
@@ -351,7 +352,7 @@
                                     </select>
                             </div>
                             </td>
-                            <td><input type="number"  name="product_qty" class="product_qty form-control"></td>
+                            <td><input type="number"  name="product_qty"  class="product_qty form-control"></td>
                             <td><input type="number" name="product_price" class="product_price form-control"></td>
                             <td><input type="number" name="product_discount" class="product_discount form-control"></td>
                             <td><input type="number" name="product_total" class="product_total form-control"></td>

@@ -15,45 +15,55 @@ use function Laravel\Prompts\alert;
 class CartController extends Controller
 {
     public function add(Request $request){
+
         $product = ProductModel::find($request->product_id);
-        // $product_qty = $product->product_qty;
-        Cart::add($product->id, $product->product_name, $request->qty, $product->product_price);
-          return redirect()->back()->with('message', 'Successfully added');
+        $product_qty = $product->product_qty;
+        if (Cart::total() > 0){
 
-        // foreach(Cart::content() as $item){
+            foreach(Cart::content() as $item){
          
-           
-        //     if ($item->id == $request->product_id){
-        //             if ($item->qty > $product_qty){
-        //                  $no_stock = 1;
-                        
-            
-        //             }
-        //             else{
-        //                 // $have_stock = 1;
-        //                 Cart::add($product->id, $product->product_name, $request->qty, $product->product_price);
-        //                 // return redirect()->back()->with('message', 'Successfully added' . $item->qty);
-        //             }
-        //         }
-        //     else{
-        //         Cart::add($product->id, $product->product_name, $request->qty, $product->product_price);
-        //         // return redirect()->back()->with('message', 'Successfully added');
-        //     }
-
-        // }
-        //  if (isset($no_stock)){
-        //     return redirect()->back()->with('error_add_to_cart', 'No stock' );
                 
-        //  }else{
-        //     return redirect()->back()->with('message', 'Successfully added' );
+     
 
-        //  }
-        // // else if (isset($have_stock))
-        // // {
-        // //     Cart::add($product->id, $product->product_name, $request->qty, $product->product_price);
-        // //     return redirect()->back()->with('message', 'Successfully added' . $item->qty);
-        // // }
+                    if ($item->id == $request->product_id){
+                            if ($request->qty + $item->qty > $product_qty){
+                                 $no_stock = 1;
+                                
+                   
+                           }
+                           else if ($request->qty + $item->qty <= $product_qty){
+                               $have_stock = 1;
+                              
+                          }
+                           }
+                  else {
+                    $no_item_in_cart = 1;
+                  
+       
+                  }
+       
+             }
+             if (isset($no_stock)){
+                return redirect()->back()->with('error_add_to_cart', 'No stock' );
+             }else if (isset($have_stock)){
+                Cart::add($product->id, $product->product_name, $request->qty, $product->product_price);
+                return redirect()->back()->with('message', 'Successfully added' . $item->qty);
+        
+             }else if (isset($no_item_in_cart)){
 
+                Cart::add($product->id, $product->product_name, 1, $product->product_price);
+                return redirect()->back()->with('message', 'Successfully added');
+        
+             }
+            }
+         else {
+            Cart::add($product->id, $product->product_name, $request->qty, $product->product_price);
+            return redirect()->back()->with('message', 'Successfully added');
+
+         }
+         
+
+       
     }
        
 
@@ -109,12 +119,17 @@ class CartController extends Controller
              'grand_total' => $grand_total,
              'order_id' => $order_id_insert]
         );
-
+     
         $data = array();
           for($i=0; $i < count($product_name); $i++){
-              $data = array('product_name'=>$product_name[$i],'product_qty'=>$product_qty[$i],'product_price'=>$product_price[$i],'product_discount'=>$product_discount[$i],'product_total' => $product_total[$i], 'order_id' => $order_id_insert, 'product_id' => $product_id);
+              $data = array('product_name'=>$product_name[$i],'product_qty'=>$product_qty[$i],'product_price'=>$product_price[$i],'product_discount'=>$product_discount[$i],'product_total' => $product_total[$i], 'order_id' => $order_id_insert, 'product_id' => $product_id[$i]);
             
            OrderModel::insertOrIgnore($data);
+          }
+          for ($i=0; $i < count($product_name); $i++){
+
+            DB::table('products')->where('id', $product_id[$i])->decrement('product_qty', $product_qty[$i]);
+
           }
         Cart::destroy();
         // return redirect()->back()->with('message', 'Successfully Created Order');
