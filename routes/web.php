@@ -7,6 +7,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\POSController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\CustomerController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,25 +19,25 @@ use App\Http\Controllers\DashboardController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+Route::get('/logout', [ProfileController::class, 'logout'])->name('logout');
 
 Route::get('/', function () {
     return view('/auth/login');
-});
+})->name('login');
+
 Route::get('/register', function () {
     return view('/auth/register');
 })->name('register');
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'role:admin'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/index', [DashboardController::class, 'index'])->name('dashboard');
     
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/logout', [ProfileController::class, 'logout'])->name('logout');
     Route::post('/profile/view', [ProfileController::class, 'profile_store'])->name('profile.store');
 
     Route::get('/profile/view', [ProfileController::class, 'profile'])->name('profile.view');
@@ -87,5 +89,11 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 
 
+Route::middleware(['auth','role:employee' ])->group(function(){
+    Route::get('/employee/index', [EmployeeController::class, 'index'])->name('employee.index');
 
+});
+Route::middleware(['auth','role:customer'])->group(function(){
+    Route::get('/customer/index', [customerController::class, 'index'])->name('customer.index');
 
+});

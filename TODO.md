@@ -6,25 +6,25 @@ Project Description
 
 ### Todo
 
-- [ ] Make User Account with Discount Credit System  
-- [ ] Make Employee Account  
 - [ ] Recently Deleted Page  
 - [ ] add back button to invoice view  
-- [ ] select option with keyboard  
 - [ ] stock in button  
 - [ ] make active link aside dynamic  
 - [ ] add barcode to invoice  
-- [ ] make all dash board work  
 - [ ] export purchase receipt for supplier  
 - [ ] Add Purchase from supplier  
 - [ ] import data using xml ecel  
 
 ### In Progress
 
-- [ ] quantity from product when doing pos  
+- [ ] Make Employee Account  
+- [ ] Make User Account with Discount Credit System  
+- [ ] select option with keyboard  
 
 ### Done ✓
 
+- [x] make all dash board work  
+- [x] quantity from product when doing pos  
 - [x] Stock Level Control  
 - [x] Add Category and Product List to Dashboard  
 - [x] Add supplier  

@@ -84,7 +84,8 @@
                                             <label for="floatingPassword">Product qty</label>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 old_add_category_div">
+
                                         <div class="form-floating mb-3">
 
                                             <select class="form-select" required id="floatingSelect" name="category_id" aria-label="Category">
@@ -95,8 +96,23 @@
                                                 @endforeach
                                             </select>
                                             <label for="floatingSelect">Category</label>
+
                                         </div>
                                     </div>
+                                    <div class="col-md-2 py-2 add_category_btn">
+                                        
+                                        <a class="btn btn-primary add-category-btn">+</a>
+                                    </div>
+                                    {{-- <div class="col-md-4 add_category_div">
+                                        <div class="form-floating">
+                                            <input type="text" required class="form-control" id="floatingPassword" name="new_category" placeholder="New Category Name">
+                                            <label for="floatingPassword">New Category Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 py-2 cancel_category_btn">
+                                        
+                                        <a class="btn btn-danger cancel-category-btn">x</a>
+                                    </div> --}}
                                     <div class="col-md-4">
                                         <div class="form-floating mb-3">
 

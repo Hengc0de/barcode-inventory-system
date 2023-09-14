@@ -97,6 +97,7 @@ class ProfileController extends Controller
             $file->move(public_path('upload/profile_pictures'), $filename);
             $Data['avatar'] = $filename;
         }
+        
         $Data->save();
         return redirect()->back();
 
