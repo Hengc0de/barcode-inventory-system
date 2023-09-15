@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 29, 2023 at 02:00 PM
+-- Generation Time: Sep 15, 2023 at 07:05 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -139,7 +139,16 @@ INSERT INTO `ordered_product` (`id`, `product_name`, `product_qty`, `product_pri
 (109, 'Razer Viper V2 Pro', 5, 150, 0, 750, 34, 3, NULL),
 (110, 'Test Supplier', 1, 120, 0, 120, 34, 3, NULL),
 (113, 'Razer Viper V2 Pro', 4, 150, 0, 600, 35, 3, NULL),
-(114, 'Test Supplier', 1, 120, 0, 120, 35, 3, NULL);
+(114, 'Test Supplier', 1, 120, 0, 120, 35, 3, NULL),
+(115, 'Razer Viper V2 Pro', 12, 150, 0, 1800, 37, 3, NULL),
+(116, 'Test Supplier', 14, 120, 0, 1680, 37, 3, NULL),
+(117, 'Razer Viper V2 Pro', 10, 150, 0, 1500, 40, 3, NULL),
+(118, 'Test Supplier', 11, 120, 0, 1320, 40, 9, NULL),
+(119, 'Coca', 6, 2, 0, 12, 40, 4, NULL),
+(120, 'vital', 2, 100, 0, 200, 40, 10, NULL),
+(121, 'Razer Viper V2 Pro', 1, 150, 0, 150, 41, 3, NULL),
+(122, 'Test Supplier', 2, 120, 0, 240, 42, 9, NULL),
+(123, 'Coca', 1, 2, 0, 2, 42, 4, NULL);
 
 -- --------------------------------------------------------
 
@@ -288,7 +297,14 @@ INSERT INTO `pos` (`po_id`, `po_name`, `grand_total`, `customer_name`, `created_
 (50, 'Order#32', 150, 'Customer name', '2023-08-14 11:54:57', 32),
 (51, 'Order#33', 120, 'Doggo', '2023-08-14 11:56:54', 33),
 (53, 'Order#34', 870, 'kok', '2023-08-14 12:24:55', 34),
-(55, 'Order#35', 720, 'Customer name', '2023-08-15 08:51:41', 35);
+(55, 'Order#35', 720, 'Customer name', '2023-08-15 08:51:41', 35),
+(56, 'Order#36', 0, 'Customer name', '2023-09-11 07:23:26', 36),
+(57, 'Order#37', 3480, 'Customer name', '2023-09-11 07:51:33', 37),
+(58, 'Order#38', 3032, 'Customer name', '2023-09-11 08:03:01', 38),
+(59, 'Order#39', 3032, 'Customer name', '2023-09-11 08:03:06', 39),
+(60, 'Order#40', 3032, 'Customer name', '2023-09-11 08:05:03', 40),
+(61, 'Order#41', 150, 'Customer name', '2023-09-11 08:30:55', 41),
+(62, 'Order#42', 242, 'Customer name', '2023-09-11 08:31:10', 42);
 
 -- --------------------------------------------------------
 
@@ -314,10 +330,10 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `product_name`, `product_price`, `category_id`, `product_code`, `product_qty`, `serial_number`, `updated_at`, `product_img`, `supplier_id`) VALUES
-(3, 'Razer Viper V2 Pro', 150, 1, '2216H25403794', 8, NULL, '2023-08-14 05:29:09', '202308000000430505Razer-Viper-V2-Pro-Hyperspeed-Wireless-Gaming-Mouse-58g-Ultra-Lightweight-Optical-Switches-Gen-3-30K.jpg', 1),
-(4, 'Coca', 2, 2, '8847100563637', 5, NULL, '2023-08-13 17:10:22', '202308000000020615coca-33cl.jpg', 2),
-(9, 'Test Supplier', 120, 1, '434234', 11, NULL, '2023-08-14 02:48:08', '202308000000061318image (2).png', 10),
-(10, 'vital8846002481704', 100, 2, '8846002481704', 2, NULL, '2023-08-14 12:37:42', NULL, 10);
+(3, 'Razer Viper V2 Pro', 150, 1, '2216H25403794', 9, NULL, '2023-09-11 08:30:55', '202308000000430505Razer-Viper-V2-Pro-Hyperspeed-Wireless-Gaming-Mouse-58g-Ultra-Lightweight-Optical-Switches-Gen-3-30K.jpg', 1),
+(4, 'Coca', 2, 2, '8847100563637', 5, NULL, '2023-09-11 08:31:10', '202308000000020615coca-33cl.jpg', 2),
+(9, 'Test Supplier', 120, 1, '434234', 9, NULL, '2023-09-11 08:31:10', '202308000000061318image (2).png', 10),
+(10, 'vital', 100, 2, '8846002481704', 2, NULL, '2023-09-02 03:19:34', NULL, 10);
 
 -- --------------------------------------------------------
 
@@ -358,16 +374,22 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `about` text DEFAULT NULL,
-  `avatar` text DEFAULT NULL
+  `avatar` text DEFAULT NULL,
+  `role` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `username`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `about`, `avatar`) VALUES
-(1, 'admin', 'admin', 'admin@admin.com', NULL, '$2y$10$.cLHP38QH5IOVWWJwnjVDug9kkvR28yw5RbhEto3cJc6kRe5BG0WC', NULL, '2023-07-30 09:25:32', '2023-08-15 01:55:26', '', '20230800000055150855roadwork.png'),
-(2, 'Dog admin', 'Doggo', 'doggo@dog.com', NULL, '$2y$10$QF7./69arwmZ9aGQSj.qS.8H7Rz5LxdW3IzgCijftK2iqiUwi8eCu', NULL, '2023-08-14 04:45:35', '2023-08-14 04:45:35', NULL, NULL);
+INSERT INTO `users` (`id`, `name`, `username`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `about`, `avatar`, `role`) VALUES
+(1, 'admin', 'admin', 'admin@admin.com', NULL, '$2y$10$.cLHP38QH5IOVWWJwnjVDug9kkvR28yw5RbhEto3cJc6kRe5BG0WC', NULL, '2023-07-30 09:25:32', '2023-08-15 01:55:26', '', '20230800000055150855roadwork.png', 'admin'),
+(2, 'Dog admin', 'Doggo', 'doggo@dog.com', NULL, '$2y$10$QF7./69arwmZ9aGQSj.qS.8H7Rz5LxdW3IzgCijftK2iqiUwi8eCu', NULL, '2023-08-14 04:45:35', '2023-08-14 04:45:35', NULL, NULL, 'customer'),
+(3, 'Customer', 'customer', 'customer@gmail.com', NULL, '$2y$10$WKISxkuZidz2C5zCPSq3.e26wtuSpt/zkhGtGSl3cgmLVypwYKFn6', NULL, '2023-09-14 10:19:21', '2023-09-14 10:19:21', NULL, NULL, 'customer'),
+(4, 'employee', 'employee', 'employee@gmail.com', NULL, '$2y$10$qnpyy36I2Xa7xkP/yb/nseU6MbLuqkdFL46V2VyjIO8wmehPd5Bbe', NULL, '2023-09-14 11:07:08', '2023-09-14 11:07:08', NULL, NULL, NULL),
+(5, 'customer1', 'customer1', 'customer1@gmail.com', NULL, '$2y$10$eP5A5p5gyIMU1wdxoQSe6eCZF9TeCz03L7oX8yj8/Z/lBtKF9mktu', NULL, '2023-09-14 11:14:03', '2023-09-14 11:14:03', NULL, NULL, NULL),
+(6, '123', '123', '123123@123', NULL, '$2y$10$P3/PQ0MN4flrFbY.7edOJOh.eihHDXud8Zbdu689XHImXObt5ZLAS', NULL, '2023-09-14 11:16:53', '2023-09-14 11:16:53', NULL, NULL, NULL),
+(7, '123', '123123123', '123123@123s', NULL, '$2y$10$Afh8GNNboTifGn1v4hU7xem4wk8EKqoQBTQLxuvhZoinbXzQdZPv6', NULL, '2023-09-14 11:18:24', '2023-09-14 11:18:24', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -499,7 +521,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `ordered_product`
 --
 ALTER TABLE `ordered_product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -517,7 +539,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `pos`
 --
 ALTER TABLE `pos`
-  MODIFY `po_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `po_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -535,7 +557,7 @@ ALTER TABLE `suppliers`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
