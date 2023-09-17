@@ -14,7 +14,21 @@
 
     <section class="section dashboard">
         <div class="row">
+            <div class="col-12 ">
+                
+                <div class="card">
+                    <div class="card-body  " style="padding: 50px !important;">
 
+                        <h1 >Your credit: ${{$credit }} </h1>
+                        <p class="mb-5 text-secondary">Every 100$ spent you will receive 5$ credit</p>
+                        <div class="progress">
+                            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width:{{$credit_left}}%" aria-valuenow="{{$credit_left}}" aria-valuemin="0" aria-valuemax="100">${{$credit_left}}</div>
+                          </div>
+                    </div>
+               
+                </div>
+       
+            </div>
             <!-- Left side columns -->
             <div class="col-lg-12">
                 <div class="row">
@@ -26,14 +40,14 @@
                            
 
                             <div class="card-body">
-                                <h5 class="card-title">Sales </h5>
+                                <h5 class="card-title">Bought</h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="bi bi-cart"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6> Products</h6>
+                                        <h6>{{$sum_of_bought_product}} Products</h6>
                                         {{-- <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span> --}}
 
                                     </div>
@@ -50,14 +64,14 @@
                            
 
                             <div class="card-body">
-                                <h5 class="card-title">Revenue </h5>
+                                <h5 class="card-title">Total Spent </h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="bi bi-currency-dollar"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>$</h6>
+                                        <h6>{{$sum_of_bought_price}}$</h6>
                                         {{-- <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span> --}}
 
                                     </div>
@@ -68,30 +82,9 @@
                     </div><!-- End Revenue Card -->
 
                     <!-- Customers Card -->
-                    <div class="col-xxl-4 col-xl-12">
 
-                        <div class="card info-card customers-card">
 
-                           
-                            <div class="card-body">
-                                <h5 class="card-title">Customers</h5>
-
-                                <div class="d-flex align-items-center">
-                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-people"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                        <h6>545</h6>
-                                        {{-- <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span> --}}
-
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div><!-- End Customers Card -->
-
+                  
                     <!-- Reports -->
                     
                     <!-- Recent Sales -->
@@ -125,7 +118,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-    
+                                        @foreach ($ordered_product as $odp) 
+                                            <tr>
+                                                <td>{{$odp->product_id}}</td>
+                                                <td>{{$odp->product_name}}</td>
+                                                <td>{{$odp->product_qty}}</td>
+                                                <td>{{$odp->product_price}}</td>
+                                            </tr>
+                                        @endforeach
 
                                        
                                     </tbody>

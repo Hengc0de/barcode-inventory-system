@@ -10,6 +10,8 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\ProductTableModel;
+use App\Models\User;
+
 use function Laravel\Prompts\alert;
 
 class CartController extends Controller
@@ -90,7 +92,7 @@ class CartController extends Controller
     }
     public function create_order(Request $rq){
        
-         $customer_name = $rq->dbconcustomer_name;
+         $customer_phone_number = $rq->dbconcustomer_phone_number;
          $grand_total = $rq->dbcongrand_total;
          
          $product_id = $rq->dbconproduct_id;
@@ -103,7 +105,36 @@ class CartController extends Controller
          $last = POSModel::latest('order_id')->first();
          $order_id_from_db = $last->order_id;
          $order_id_insert =  $order_id_from_db + 1;
-        //  $datas = array();
+
+
+         $customer = User::where('customer_phone_number',$customer_phone_number)->first();
+         $credit_left = $customer->credit_left;
+         $credit = $customer->credit;
+         
+          $calc_grand_total = $grand_total+$credit_left;
+          
+          while($calc_grand_total != 0){
+          if ($calc_grand_total >= 100){
+          
+          
+             $calc_grand_total -= 100;
+            $credit += 5;
+            $credit_left = 0;
+            
+          }else if ($calc_grand_total < 100 && $calc_grand_total > 0){
+ 
+             $credit_left = 0;
+             $credit_left += $calc_grand_total;
+             
+             $calc_grand_total = 0;
+
+           }else {
+            $calc_grand_total = 0;
+           }
+
+          }
+          DB::statement("UPDATE users SET credit = $credit, credit_left =  $credit_left where customer_phone_number = $customer_phone_number");
+         //  $datas = array();
         //  for($i=0; $i < count($product_name); $i++){
         //     $p_id = ProductTableModel::find($product_id[$i]);
         //     $up_pid = $p_id->product_qty - 1;
@@ -114,15 +145,15 @@ class CartController extends Controller
         //  }
 
         DB::table('pos')->insert(
-            ['customer_name' => $customer_name,
+            ['customer_phone_number' => $customer_phone_number,
             'po_name' => 'Order#' . $order_id_insert,
              'grand_total' => $grand_total,
              'order_id' => $order_id_insert]
         );
-     
+        
         $data = array();
           for($i=0; $i < count($product_name); $i++){
-              $data = array('product_name'=>$product_name[$i],'product_qty'=>$product_qty[$i],'product_price'=>$product_price[$i],'product_discount'=>$product_discount[$i],'product_total' => $product_total[$i], 'order_id' => $order_id_insert, 'product_id' => $product_id[$i]);
+              $data = array('product_name'=>$product_name[$i],'product_qty'=>$product_qty[$i],'product_price'=>$product_price[$i],'product_discount'=>$product_discount[$i],'product_total' => $product_total[$i], 'order_id' => $order_id_insert, 'product_id' => $product_id[$i], 'customer_phone_number' => $customer_phone_number);
             
            OrderModel::insertOrIgnore($data);
           }

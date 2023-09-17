@@ -35,6 +35,9 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'username' => ['required', 'string',  'max:20', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'customer_phone_number' => ['required', 'string', 'max:255'],
+            'role' => ['required', 'string', 'max:255'],
+
         ]);
 
         $user = User::create([
@@ -43,12 +46,22 @@ class RegisteredUserController extends Controller
 
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'customer_phone_number' => $request->customer_phone_number,
+            'role' => $request->role,
+
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
-
-        return redirect(RouteServiceProvider::HOME);
+        $url = '';
+        if ($request->user()->role === 'admin'){
+            $url = '/index';
+        }else if ($request->user()->role === 'employee'){
+            $url = 'employee/index';
+        }else if ($request->user()->role === 'customer'){
+            $url = 'customer/index';
+        }
+        return redirect($url);
     }
 }

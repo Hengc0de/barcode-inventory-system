@@ -173,7 +173,7 @@
             $(document).ready(function() {
                 $("#btnsaverow").click(function() {
           
-                    var customer_name= $('.customer_name').val();
+                    var customer_phone_number= $('.customer_phone_number').val();
                     var grand_total= $('.grand_total').val();
                     var product_id= $('.product_id').map(function() {
                         return $(this).val();
@@ -200,7 +200,7 @@
                     
                     $.post('/create_order', {
                       
-                        'dbconcustomer_name':customer_name,
+                        'dbconcustomer_phone_number':customer_phone_number,
                         'dbcongrand_total':grand_total,
                         'dbconproduct_id[]':product_id,
                         'dbconproduct_name[]': product_name,
@@ -370,8 +370,8 @@
                         <div class="col-md-12 mb-5 mt-3">
 
                             <div class="form-floating">
-                                <input required type="text" value="Customer name" required class="form-control customer_name" id="floatingName" name="customer_name" placeholder="Customer Name">
-                                <label for="floatingName">Customer Name</label>
+                                <input required type="text" value="0" required class="form-control customer_phone_number" id="floatingName" name="customer_phone_number" placeholder="Customer Name">
+                                <label for="floatingName">Customer Phone Number</label>
                             </div>
                         </div>
 

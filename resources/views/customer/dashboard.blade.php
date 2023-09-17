@@ -4,7 +4,7 @@
 <body>
 
     <!-- ======= Header ======= -->
-    @include ('partials/header');
+    @include ('customer/header');
 
     @include ('customer/aside');
     @yield('admin');

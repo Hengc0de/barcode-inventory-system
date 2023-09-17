@@ -20,7 +20,11 @@
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="email" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
-
+        <div class="mt-4">
+            <x-input-label for="customer_phone_number" :value="__('Phone Number')" />
+            <x-text-input id="customer_phone_number" class="block mt-1 w-full" type="text" name="customer_phone_number" :value="old('customer_phone_number')" required autocomplete="customer_phone_number" />
+            <x-input-error :messages="$errors->get('customer_phone_number')" class="mt-2" />
+        </div>
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
@@ -43,7 +47,8 @@
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
-        <x-text-input id="role" class="block mt-1 w-full" type="text" name="role" value="customer" required autocomplete="role" />
+
+        <x-text-input id="role" class="block mt-1 w-full" type="hidden" name="role" value="customer" required autocomplete="role" />
 
 
         <div class="flex items-center justify-end mt-4">
