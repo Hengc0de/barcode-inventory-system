@@ -17,12 +17,13 @@ Project Description
 
 ### In Progress
 
+- [ ] make customer able to use credit when purchasing  
 - [ ] Make Employee Account  
-- [ ] Make User Account with Discount Credit System  
 - [ ] select option with keyboard  
 
 ### Done ✓
 
+- [x] Make User Account with Discount Credit System  
 - [x] make all dash board work  
 - [x] quantity from product when doing pos  
 - [x] Stock Level Control  

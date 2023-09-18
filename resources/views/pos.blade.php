@@ -18,6 +18,18 @@
     
         $(document).ready(function() {
             $(window ).on("load", function() {
+                setTimeout(()=> {
+                    var check_grand = $('.grand_total').val();
+                if (check_grand <= 0){
+            
+                    $(".btnsave").addClass('disabled');
+                }else if (check_grand>0) {
+                    $(".btnsave").removeClass('disabled');
+                }
+      }
+      ,3000);
+
+
                 $(".form_select").focus();
                 var new_grand_total = 0.0;
                 $('.product_total').not(":last").each(function(){
@@ -33,7 +45,7 @@
                 $("#addeven").modal("show");
     
     
-            })
+            });
             // get all values from element form
             $("#btnsave").click(function() {
                 var username = $("#txtusername").val();
@@ -59,18 +71,31 @@
             // get id from html
             $("#tbluser tr").on("click", function() {
                 var current_row = $(this).closest("tr")
-            })
+
+            });
             // for create add new
             $('#add_more').click(function() {
                 $('#bodycat').append(
                     '<tr><td><input type="text" name="product_name" class="product_name form-control"></td><td><input type="number" name="product_qty"  class="product_qty form-control"></td><td><input type="number" name="product_price" class="product_price form-control"></td><td><input type="number" name="product_discount" class="product_discount form-control"></td><td><input type="number" name="product_total" class="product_total form-control"></td><td><a href="#" class="remove btn btn-danger" >Remove</a></a></tr>'
                     );
                 //alert("testing");
-                               
+
 
     
             });
             $("#tbladdcat").on("click", ".remove", function() {
+
+                
+
+                var product_total = $(this).closest("tr").find('.product_total').val();
+                // alert(product_total);
+                 
+             
+                var grand_total = $('.grand_total').val();
+                var new_grand_total =  grand_total - product_total;
+
+               
+                var grand_total = $('.grand_total').val(new_grand_total);
                 //var current_row = $(this).closest("tr");
                 var row_id = $(this).closest("tr").find('.row_id').attr('value');
                 // alert(row_id);
@@ -88,6 +113,7 @@
                 
             });
             $(".product_qty").on("change paste keyup",function(){
+
                 var product_total = $(this).closest("tr").find('.product_total').val();
                 // alert(product_total);
                  var product_qty = $(this).closest("tr").find('.product_qty').val();
@@ -120,6 +146,8 @@
 
             })
             $(".product_discount").on("change paste keyup",function(){
+
+
                 var product_total = $(this).closest("tr").find('.product_total').val();
                 // alert(product_total);
                  var product_qty = $(this).closest("tr").find('.product_qty').val();
@@ -147,6 +175,13 @@
 
             $(document).ready(function(){
                 $(".form_select").on("change",function(){
+                    var check_grand = $('.grand_total').val();
+                if (check_grand <= 0){
+            
+                    $(".btnsave").addClass('disabled');
+                }else if (check_grand>0) {
+                    $(".btnsave").removeClass('disabled');
+                }
                 var product_id = $(this).closest("tr").find('.product_id').val();
                 // alert(product_total);
                 var product_qty = $(this).closest("tr").find('.product_qty').val();
@@ -168,11 +203,13 @@
 
             })
             })
+            $(".customer_phone_number").on("change paste keyup",function(){
 
+            })
             // fro create add new
             $(document).ready(function() {
                 $("#btnsaverow").click(function() {
-          
+
                     var customer_phone_number= $('.customer_phone_number').val();
                     var grand_total= $('.grand_total').val();
                     var product_id= $('.product_id').map(function() {
@@ -373,10 +410,15 @@
                                 <input required type="text" value="0" required class="form-control customer_phone_number" id="floatingName" name="customer_phone_number" placeholder="Customer Name">
                                 <label for="floatingName">Customer Phone Number</label>
                             </div>
+
+                            <div class="form-floating mt-3">
+                                <input required type="text" value="0" required class="form-control customer_phone_number" id="floatingName" name="customer_phone_number" placeholder="Customer Name">
+                                <label for="floatingName">Credit used:</label>
+                            </div>
                         </div>
 
                     </div>
-                    <button type="button" class="btn col-2 btn-primary offset-lg-5 offset-md-5 offset-sm-5 offset-5" id="btnsaverow">Create order</button>
+                    <button type="button" class="btn btnsave col-2 btn-primary offset-lg-5 offset-md-5 offset-sm-5 offset-5" id="btnsaverow">Create order</button>
                     </div>
                 </div>
             
