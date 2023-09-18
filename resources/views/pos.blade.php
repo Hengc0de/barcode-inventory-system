@@ -4,6 +4,7 @@
     @livewireStyles();
     <!-- ======= Header ======= -->
     @include ('partials/header');
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="{{asset('assets/vendor/jQuery3.7/jQuery.js')}}"></script>
 
     <!-- ======= Sidebar ======= -->
@@ -17,7 +18,22 @@
         // $('.select').selectpicker();
     
         $(document).ready(function() {
+            
+    
             $(window ).on("load", function() {
+                // var customer_phone_number = $(".customer_phone_number").val();
+                // if (customer_phone_number != "Customer Phone Number") {
+                //     $(".credit-div").removeClass("d-none");
+                //     $(".btn-cancel-credit").removeClass("d-none");
+                //     $(".btn-add-credit").addClass("d-none");
+
+                // }else{
+                //     $(".credit-div").addClass("d-none");
+                //     $(".btn-cancel-credit").addClass("d-none");
+                //     $(".btn-add-credit").removeClass("d-none");
+                // };
+            
+
                 setTimeout(()=> {
                     var check_grand = $('.grand_total').val();
                 if (check_grand <= 0){
@@ -26,8 +42,8 @@
                 }else if (check_grand>0) {
                     $(".btnsave").removeClass('disabled');
                 }
-      }
-      ,3000);
+                }
+                ,500);
 
 
                 $(".form_select").focus();
@@ -39,6 +55,7 @@
                
                 var grand_total = $('.grand_total').val(new_grand_total);
             });
+            
             $("#add").click(function() {
     
     
@@ -73,6 +90,8 @@
                 var current_row = $(this).closest("tr")
 
             });
+
+
             // for create add new
             $('#add_more').click(function() {
                 $('#bodycat').append(
@@ -85,7 +104,16 @@
             });
             $("#tbladdcat").on("click", ".remove", function() {
 
-                
+                setTimeout(()=> {
+                    var check_grand = $('.grand_total').val();
+                if (check_grand <= 0){
+            
+                    $(".btnsave").addClass('disabled');
+                }else if (check_grand>0) {
+                    $(".btnsave").removeClass('disabled');
+                }
+                 }
+                ,500);
 
                 var product_total = $(this).closest("tr").find('.product_total').val();
                 // alert(product_total);
@@ -112,6 +140,7 @@
                     });
                 
             });
+
             $(".product_qty").on("change paste keyup",function(){
 
                 var product_total = $(this).closest("tr").find('.product_total').val();
@@ -203,9 +232,13 @@
 
             })
             })
-            $(".customer_phone_number").on("change paste keyup",function(){
+  
+            $(".btn-use-credit").on('click', function(){
+                $(".credit-div").removeClass("d-none");
+                    $(".btn-cancel-credit").removeClass("d-none");
+                    $(this).addClass("d-none");
+            });
 
-            })
             // fro create add new
             $(document).ready(function() {
                 $("#btnsaverow").click(function() {
@@ -234,7 +267,9 @@
                     var product_total = $('.product_total').map(function() {
                         return $(this).val();
                     }).get();
-                    
+                    if (customer_phone_number.val() == ''){
+
+                    }
                     $.post('/create_order', {
                       
                         'dbconcustomer_phone_number':customer_phone_number,
@@ -404,17 +439,49 @@
                         </tbody>
                     </table>
                     <div class="row ">
-                        <div class="col-md-12 mb-5 mt-3">
+                        <div class="col-md-12 mb-5 mt-3 ">
+                            <button class="btn btn-success btn-use-credit ">Use Credit</button>
 
-                            <div class="form-floating">
-                                <input required type="text" value="0" required class="form-control customer_phone_number" id="floatingName" name="customer_phone_number" placeholder="Customer Name">
-                                <label for="floatingName">Customer Phone Number</label>
-                            </div>
+                            <div class="form-floating credit-div d-none">
+                                   <form action="{{route('fetch_credit')}}" class=" d-flex justify-content-around gap-5" method="POST" > 
+                                        @csrf
+                                        @if (isset($customer_phone_number))
+                                        <input required type="text"  value="{{$customer_phone_number}} " required class=" form-control customer_phone_number" id="floatingName" name="customer_phone_number" placeholder="Customer Name">
+                                            
+                                        @else
+                                        <input required type="text"  value="Customer Phone Number" required class=" form-control customer_phone_number" id="floatingName" name="customer_phone_number" placeholder="Customer Name">
+                                            
+                                        @endif
 
-                            <div class="form-floating mt-3">
-                                <input required type="text" value="0" required class="form-control customer_phone_number" id="floatingName" name="customer_phone_number" placeholder="Customer Name">
-                                <label for="floatingName">Credit used:</label>
+                             
+    
+                                    
+                                        <button type="submit" class="btn btn-success btn-check-number">Check Number</button>
+                                 </form> 
+  
+                                 @if (isset($credit))
+                                    @if ($credit != "Phone number not found")
+                                        <p class="mx-2 my-2 text-success">User available credit is: ${{$credit}}</p>                                         
+                                        
+                                    @else
+                                 <p class="mx-2 my-2 text-danger">{{$credit}}</p>                                         
+                                        
+                                    @endif
+                                 @endif
+                                 <div class="form-floating mt-3 ">
+                                    <input required type="number" value="0" min="0" max="40" required class="form-control credit_used" id="floatingName" name="credit_used" placeholder="Customer Name">
+                                    <label for="floatingName">Credit used:</label>
+                                </div>
+
                             </div>
+                            <form action="{{route('pos.index')}}">
+                                <button type="submit" class=" mt-3 btn btn-danger btn-cancel-credit d-none ">Don't use account</button>
+
+                            </form>
+
+
+
+
                         </div>
 
                     </div>

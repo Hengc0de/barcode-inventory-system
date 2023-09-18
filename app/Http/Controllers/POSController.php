@@ -11,9 +11,24 @@ use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\OrderModel;
 use App\Models\OrdersModel;
+use App\Models\User;
 class POSController extends Controller
 {
     //
+
+    public function fetch_credit( Request $request){
+        $customer_phone_number = $request->customer_phone_number;
+        $user = User::where('customer_phone_number', $customer_phone_number)->first();
+        if ($user  ){
+            $credit = $user->credit;
+
+        }else {
+            $credit = "Phone number not found";
+        }
+        $products = ProductModel::all();
+        $cart = Cart::content();
+        return view('pos', compact('credit', 'customer_phone_number', 'products', 'cart'));
+    }
     public function index(){
         $products = ProductModel::all();
         $cart = Cart::content();

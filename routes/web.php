@@ -19,6 +19,8 @@ use App\Http\Controllers\CustomerController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::post('/fetch_credit', [POSController::class, 'fetch_credit'])->name('fetch_credit');
+
 Route::get('/logout', [ProfileController::class, 'logout'])->name('logout');
 
 Route::get('/', function () {
@@ -84,6 +86,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/supplier/add_supplier', function(){
         return view('supplier.add_supplier');
     });
+
+
 
 });
 require __DIR__ . '/auth.php';
