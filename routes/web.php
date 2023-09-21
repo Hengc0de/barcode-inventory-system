@@ -19,7 +19,8 @@ use App\Http\Controllers\CustomerController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::post('/fetch_credit', [POSController::class, 'fetch_credit'])->name('fetch_credit');
+Route::get('/fetch_credit/{customer_phone_number}', [POSController::class, 'fetch_credit'])->name('fetch_credit');
+Route::get('/fetch_credit/not_enough/{customer_phone_number}', [POSController::class, 'fetch_credit_not_enough'])->name('fetch_credit_not_enough');
 
 Route::get('/logout', [ProfileController::class, 'logout'])->name('logout');
 

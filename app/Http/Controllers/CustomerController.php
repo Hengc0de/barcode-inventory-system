@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\OrderModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\NotificationModel;
 class CustomerController extends Controller
 
 {
@@ -23,8 +24,12 @@ class CustomerController extends Controller
             $sum_of_bought_product += $odp->product_qty;
             $sum_of_bought_price += $odp->product_price;
        }
-      
        
-        return view('customer.index', compact('ordered_product', 'credit', 'credit_left', 'balance', 'sum_of_bought_product', 'sum_of_bought_price'));
+       $notification = NotificationModel::where('customer_phone_number', $customer_phone_number)->get();
+       if (!$notification){
+            $notification = "ok";
+       }
+       
+        return view('customer.index', compact('ordered_product', 'credit', 'credit_left', 'balance', 'sum_of_bought_product', 'sum_of_bought_price', 'notification'));
     }
 }

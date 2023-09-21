@@ -15,19 +15,41 @@ use App\Models\User;
 class POSController extends Controller
 {
     //
+    public function fetch_credit_not_enough( Request $request){
 
-    public function fetch_credit( Request $request){
         $customer_phone_number = $request->customer_phone_number;
+  
         $user = User::where('customer_phone_number', $customer_phone_number)->first();
-        if ($user  ){
+        if ($user ){
             $credit = $user->credit;
-
+            $credit_found = "true";
         }else {
             $credit = "Phone number not found";
+            $credit_found = "false";
         }
         $products = ProductModel::all();
         $cart = Cart::content();
-        return view('pos', compact('credit', 'customer_phone_number', 'products', 'cart'));
+        $used = "true";
+        $not_enough = "Credit unusable";
+        return view('pos', compact('credit_found',  'credit', 'customer_phone_number', 'products', 'cart', 'used', 'not_enough'));
+    }
+    public function fetch_credit( Request $request){
+
+        $customer_phone_number = $request->customer_phone_number;
+  
+        $user = User::where('customer_phone_number', $customer_phone_number)->first();
+        if ($user ){
+            $credit = $user->credit;
+            $credit_found = "true";
+        }else {
+            $credit = "Phone number not found";
+            $credit_found = "false";
+        }
+        $products = ProductModel::all();
+        $cart = Cart::content();
+        $used = "true";
+        
+        return view('pos', compact('credit_found',  'credit', 'customer_phone_number', 'products', 'cart', 'used'));
     }
     public function index(){
         $products = ProductModel::all();

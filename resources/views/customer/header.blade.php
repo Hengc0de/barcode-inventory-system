@@ -29,69 +29,73 @@
 
                 <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                     <i class="bi bi-bell"></i>
-                    <span class="badge bg-primary badge-number">4</span>
+                    <span class="badge bg-primary badge-number">{{count($notification)}}</span>
                 </a><!-- End Notification Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
                     <li class="dropdown-header">
-                        You have 4 new notifications
+                        You have {{count($notification)}} new notifications
                         <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
                     </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
 
-                    <li class="notification-item">
-                        <i class="bi bi-exclamation-circle text-warning"></i>
-                        <div>
-                            <h4>Lorem Ipsum</h4>
-                            <p>Quae dolorem earum veritatis oditseno</p>
-                            <p>30 min. ago</p>
-                        </div>
-                    </li>
 
                     <li>
                         <hr class="dropdown-divider">
                     </li>
-
+                    @foreach ($notification as $noti)
                     <li class="notification-item">
-                        <i class="bi bi-x-circle text-danger"></i>
-                        <div>
-                            <h4>Atque rerum nesciunt</h4>
-                            <p>Quae dolorem earum veritatis oditseno</p>
-                            <p>1 hr. ago</p>
-                        </div>
-                    </li>
-
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li class="notification-item">
+                        @if ($noti->status == 'success')
                         <i class="bi bi-check-circle text-success"></i>
-                        <div>
-                            <h4>Sit rerum fuga</h4>
-                            <p>Quae dolorem earum veritatis oditseno</p>
-                            <p>2 hrs. ago</p>
-                        </div>
-                    </li>
-
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li class="notification-item">
+                        @elseif ($noti->status == 'danger')
+                        <i class="bi bi-x-circle text-danger"></i>
+                        @elseif ($noti->status == 'warning')
+                        <i class="bi bi-exclamation-circle text-warning"></i>
+                        @elseif ($noti->status == 'primary')
                         <i class="bi bi-info-circle text-primary"></i>
+
+
+                        @endif
                         <div>
-                            <h4>Dicta reprehenderit</h4>
-                            <p>Quae dolorem earum veritatis oditseno</p>
-                            <p>4 hrs. ago</p>
+                            <h4>{{$noti->noti_title}}</h4>
+                            <p>{{$noti->noti_desc}}</p>
+                            
+                            <p> <?php 
+                                
+                                $dt = new DateTime();
+                                $dt->format('Y-m-d H:i:s');
+                                $db_created_at = $noti->created_at;
+                                $db_created_at->format('Y-m-d H:i:s');
+                                $real = date_diff($db_created_at, $dt);
+                                
+                                
+                                if ($real->format('%i') > 0 && $real->format('%H') == 0){
+                                    echo  $real->format('%i minutes ago');
+                                    
+                                }else if ($real->format('%d') > 0 && $real->format('%m') == 0){
+                                    echo  $real->format('%d days ago');
+                                }else if ($real->format('%m') > 0 && $real->format('%y') == 0){
+                                    echo  $real->format('%m months ago');
+                                }
+                                else if ($real->format('%H') > 0 && $real->format('%d') == 0){
+                                    echo  $real->format('%H hours ago');
+                                } else if ($real->format('%w') > 0 && $real->format('%m') == 0){
+                                    echo  $real->format('%w weeks ago');
+                                }
+                                
+                                
+                            ?>
+                            </p>
                         </div>
                     </li>
-
                     <li>
                         <hr class="dropdown-divider">
                     </li>
+
+                    @endforeach
+                    
+
+
+
                     <li class="dropdown-footer">
                         <a href="#">Show all notifications</a>
                     </li>

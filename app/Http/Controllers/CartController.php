@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\ProductTableModel;
 use App\Models\User;
+use App\Models\NotificationModel;
 
 use function Laravel\Prompts\alert;
 
@@ -94,7 +95,24 @@ class CartController extends Controller
        
          $customer_phone_number = $rq->dbconcustomer_phone_number;
          $grand_total = $rq->dbcongrand_total;
-         
+         $credit_used = $rq->dbconcredit_used;
+
+         $account = User::where('customer_phone_number', $customer_phone_number)->first();
+         if (!$account){
+            $credit_used = 0;
+         }
+         else {
+            $credit_in_account = $account->credit;
+            if ($credit_used > $credit_in_account || $credit_used > $grand_total){
+               return $customer_phone_number;
+
+            }
+            else {
+               $credit_to_update =  $credit_in_account - $credit_used;
+                User::where('customer_phone_number', $customer_phone_number)->update(['credit'=>$credit_to_update]);
+            }
+         }
+
          $product_id = $rq->dbconproduct_id;
         $product_name=$rq->dbconproduct_name;
         $product_qty=$rq->dbconproduct_qty;
@@ -148,7 +166,8 @@ class CartController extends Controller
             ['customer_phone_number' => $customer_phone_number,
             'po_name' => 'Order#' . $order_id_insert,
              'grand_total' => $grand_total,
-             'order_id' => $order_id_insert]
+             'order_id' => $order_id_insert,
+             'credit_used' => $credit_used]
         );
         
         $data = array();
@@ -162,8 +181,13 @@ class CartController extends Controller
             DB::table('products')->where('id', $product_id[$i])->decrement('product_qty', $product_qty[$i]);
 
           }
+         
+          $notification = array('noti_title' => "Product Purchase", 'noti_desc' => "You have successfully purchased these products.", 'noti_status' => "success_order", 'customer_phone_number' => $customer_phone_number);
+          NotificationModel::insertOrIgnore($notification);
+
         Cart::destroy();
-        // return redirect()->back()->with('message', 'Successfully Created Order');
+
+         return 1;
 
     }
 

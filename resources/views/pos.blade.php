@@ -254,7 +254,11 @@
                     }).get();
                     // for create value now in form
                     var product_qty = $('.product_qty').map(function() {
-                        return $(this).val();
+                       
+                        
+                            return $(this).val();
+
+                        
                     }).get();
                     // for values for this product_price
                     var product_price = $('.product_price').map(function() {
@@ -267,8 +271,11 @@
                     var product_total = $('.product_total').map(function() {
                         return $(this).val();
                     }).get();
-                    if (customer_phone_number.val() == ''){
+                    var credit_used = $('.credit_used').val();
 
+                    if ($(".customer_phone_number").val() == '' || $(".customer_phone_number").val() == "Customer Phone Number"){
+                        alert('Please fill out customer phone number');
+                        return;
                     }
                     $.post('/create_order', {
                       
@@ -280,15 +287,22 @@
                         'dbconproduct_price[]': product_price,
                         'dbconproduct_discount[]': product_discount,
                         'dbconproduct_total[]': product_total,
+                        'dbconcredit_used': credit_used,
+                        
 
                     }, function(result) {
                    if(result==1){
-                    window.location.href="{{ route('product.index') }}";
-               
+                    
+                    alert('Your order has been created');
+                    window.location.assign("/pos" );
+
+
+                   }else{
+                    window.location.assign("/fetch_credit/not_enough/" + result);
 
                    }
                     
-                   window.location.href="{{ route('pos.index') }}";
+                  
                    
                    
                     });
@@ -360,17 +374,33 @@
                 </div>
 
                 @endif
+                @if(session()->has('credit'))
+                <div class="alert alert-danger align-items-center d-flex justify-content-between">
+
+                    <div>
+                        {{ session('credit') }}
+                    </div>
+                </div>
+
+                @endif
                 <!-- Left side columns -->
     
 <div class="row">
     <div class="col-xxl-7">
         <section class="section">
-          
+            
              {{-- ({{\Gloudemans\Shoppingcart\Facades\Cart::content()->count()}}) --}}
                 <div class="card">
                     <div class="card-body">
                     <h1 class="card-title">Create Order</h1>
+                        @if (isset($not_enough))
+                        <div class="alert alert-danger align-items-center d-flex justify-content-between">
 
+                            <div>
+                                {{$not_enough}}
+                            </div>
+                        </div>
+                        @endif
                     <!-- General Form Elements thon -->
                     {{-- <div align="right"><a href="#" id="add_more" class="btn col-2 btn-primary ">Add</a></div><br> --}}
                     <table class="table table-bordered" id="tbladdcat">
@@ -401,9 +431,9 @@
                                  
                                         <td><input type="number" value="{{$item->qty}}"  name="product_qty"  class="product_qty form-control"></td>
                                         
-                                        <td><input type="number" value="{{$product->product_price}}"  name="product_price" class="product_price form-control"></td>
+                                        <td><input type="number" value="{{$product->product_price}}" readonly name="product_price" class="product_price form-control"></td>
                                         <td><input type="number" name="product_discount" value="0" placeholder="%"  class="product_discount form-control"></td>
-                                        <td><input type="number" name="product_total"  value="{{$product->product_price * $item->qty}}"  class="product_total form-control"></td>
+                                        <td><input type="number" readonly name="product_total"  value="{{$product->product_price * $item->qty}}"  class="product_total form-control"></td>
                                         <td><button type="button" class="remove btn btn-danger">Remove</button></td>
                                     </tr>
                                    
@@ -425,9 +455,9 @@
                             </div>
                             </td>
                             <td><input type="number"  name="product_qty"  class="product_qty form-control"></td>
-                            <td><input type="number" name="product_price" class="product_price form-control"></td>
+                            <td><input type="number" readonly name="product_price" class="product_price form-control"></td>
                             <td><input type="number" name="product_discount" class="product_discount form-control"></td>
-                            <td><input type="number" name="product_total" class="product_total form-control"></td>
+                            <td><input type="number" readonly name="product_total" class="product_total form-control"></td>
                             <td><a href="#" class="remove btn btn-danger" >Remove</a></a></td>
                             
                         </tr>
@@ -440,44 +470,95 @@
                     </table>
                     <div class="row ">
                         <div class="col-md-12 mb-5 mt-3 ">
+                            @if (isset($used))
+                            <button class="btn btn-success btn-use-credit d-none">Use Credit</button>
+
+                            <div class="form-floating credit-div ">
+                                <form action="{{route('fetch_credit', '$customer_phone_number')}}" class=" d-flex justify-content-around gap-5" method="GET" > 
+                                     @csrf
+                                     @if (isset($customer_phone_number))
+                                     <input required type="text"  value="{{$customer_phone_number}} " required class=" form-control customer_phone_number" id="floatingName" name="customer_phone_number" placeholder="Customer Phone Number">
+                                         
+                                     @else
+                                     <input required type="text"  value="Customer Phone Number" required class=" form-control customer_phone_number" id="floatingName" name="customer_phone_number" placeholder="Customer Phone Number">
+                                         
+                                     @endif
+
+                          
+ 
+                                 
+                                     <button type="submit" class="btn btn-success btn-check-number">Check Credit</button>
+                              </form> 
+
+                              @if (isset($credit))
+                                 @if ($credit != "Phone number not found")
+                                     <p class="mx-2 my-2 text-success">User available credit is: ${{$credit}}</p>                                         
+                                     
+                                 @else
+                              <p class="mx-2 my-2 text-danger">{{$credit}}</p>                                         
+                                     
+                                 @endif
+                              @endif
+                              @if ($credit_found == "true")
+                              <div class="form-floating mt-3 ">
+                                <input required type="number" value="0" min="0" max="{{$credit}}" required class="form-control credit_used" id="floatingName" name="credit_used" placeholder="Customer Name">
+                                <label for="floatingName">Credit used:</label>
+                            </div>
+                             
+                                  
+                              @endif
+
+
+                         </div>
+                         <form action="{{route('pos.index')}}">
+                             <button type="submit" class=" mt-3 btn btn-danger btn-cancel-credit ">Don't use account</button>
+
+                         </form>
+                            @else
                             <button class="btn btn-success btn-use-credit ">Use Credit</button>
 
                             <div class="form-floating credit-div d-none">
-                                   <form action="{{route('fetch_credit')}}" class=" d-flex justify-content-around gap-5" method="POST" > 
-                                        @csrf
-                                        @if (isset($customer_phone_number))
-                                        <input required type="text"  value="{{$customer_phone_number}} " required class=" form-control customer_phone_number" id="floatingName" name="customer_phone_number" placeholder="Customer Name">
-                                            
-                                        @else
-                                        <input required type="text"  value="Customer Phone Number" required class=" form-control customer_phone_number" id="floatingName" name="customer_phone_number" placeholder="Customer Name">
-                                            
-                                        @endif
+                                <form action="{{route('fetch_credit', '$customer_phone_number')}}" class=" d-flex justify-content-around gap-5" method="get" > 
+                                     @csrf
+                                     @if (isset($customer_phone_number))
+                                     <input required type="text"  value="{{$customer_phone_number}} " required class=" form-control customer_phone_number" id="floatingName" name="customer_phone_number" placeholder="Customer Name">
+                                         
+                                     @else
+                                     <input required type="text"  value="Customer Phone Number" required class=" form-control customer_phone_number" id="floatingName" name="customer_phone_number" placeholder="Customer Name">
+                                         
+                                     @endif
 
-                             
-    
-                                    
-                                        <button type="submit" class="btn btn-success btn-check-number">Check Number</button>
-                                 </form> 
-  
-                                 @if (isset($credit))
-                                    @if ($credit != "Phone number not found")
-                                        <p class="mx-2 my-2 text-success">User available credit is: ${{$credit}}</p>                                         
-                                        
-                                    @else
-                                 <p class="mx-2 my-2 text-danger">{{$credit}}</p>                                         
-                                        
-                                    @endif
+                          
+ 
+                                 
+                                     <button type="submit" class="btn btn-success btn-check-number">Check Credit</button>
+                              </form> 
+
+                              @if (isset($credit_found))
+                                 @if ($credit != "Phone number not found")
+                                     <p class="mx-2 my-2 text-success">User available credit is: ${{$credit}}</p>                                         
+                                     
+                                 @else
+                              <p class="mx-2 my-2 text-danger">{{$credit}}</p>                                         
+                                     
                                  @endif
-                                 <div class="form-floating mt-3 ">
-                                    <input required type="number" value="0" min="0" max="40" required class="form-control credit_used" id="floatingName" name="credit_used" placeholder="Customer Name">
-                                    <label for="floatingName">Credit used:</label>
-                                </div>
-
+                              @endif
+                              @if (isset($credit_found))
+                              <div class="form-floating mt-3 ">
+                                <input required type="number" value="0" min="0" max="{{$credit}}" required class="form-control credit_used" id="floatingName" name="credit_used" placeholder="Credit used:">
+                                <label for="floatingName">Credit used:</label>
                             </div>
-                            <form action="{{route('pos.index')}}">
-                                <button type="submit" class=" mt-3 btn btn-danger btn-cancel-credit d-none ">Don't use account</button>
+                             
+                                  
+                              @endif
 
-                            </form>
+                         </div>
+                         <form action="{{route('pos.index')}}">
+                             <button type="submit" class=" mt-3 btn btn-danger btn-cancel-credit d-none ">Don't use account</button>
+
+                         </form>
+                            @endif
+                           
 
 
 
