@@ -4,7 +4,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-		<title>A simple, clean, and responsive HTML invoice template</title>
+		<title>PDF Invoice</title>
 
 		<!-- Favicon -->
 		<link rel="icon" href="./images/favicon.png" type="image/x-icon" />
@@ -151,7 +151,7 @@
 								</td>
 
 								<td>
-									Customer name: {{$orders->customer_name}}<br />
+									Customer Phone Number: {{$orders->customer_phone_number}}<br />
 								</td>
 							</tr>
 						</table>

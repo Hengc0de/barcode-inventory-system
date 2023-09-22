@@ -3,12 +3,12 @@
 <body>
     @livewireStyles();
     <!-- ======= Header ======= -->
-    @include ('partials/header');
+    @include ('employee/header');
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="{{asset('assets/vendor/jQuery3.7/jQuery.js')}}"></script>
 
     <!-- ======= Sidebar ======= -->
-    @include ('partials/aside');
+    @include ('employee/aside');
     <script>
         $.ajaxSetup({
             headers: {

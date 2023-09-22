@@ -10,12 +10,12 @@
                 <span>Dashboard</span>
             </a>
         </li><!-- End Dashboard Nav -->
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link " href="{{url('pos')}}">
                 <i class="bi bi-grid"></i>
                 <span>POS</span>
             </a> 
-        </li><!-- End Dashboard Nav -->
+        </li><!-- End Dashboard Nav --> --}}
         <li class="nav-heading">
             Features
         </li>

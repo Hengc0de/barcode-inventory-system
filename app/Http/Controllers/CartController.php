@@ -182,9 +182,10 @@ class CartController extends Controller
 
           }
          
-          $notification = array('noti_title' => "Product Purchase", 'noti_desc' => "You have successfully purchased these products.", 'noti_status' => "success_order", 'customer_phone_number' => $customer_phone_number);
+          $notification = array('noti_title' => "Product Purchase", 'noti_desc' => "You have successfully purchased these products.", 'noti_status' => "success_order", 'customer_phone_number' => $customer_phone_number, 'status'=> 'success');
           NotificationModel::insertOrIgnore($notification);
-
+          DB::statement("UPDATE notification SET checked = 2 where customer_phone_number = $customer_phone_number");
+          
         Cart::destroy();
 
          return 1;

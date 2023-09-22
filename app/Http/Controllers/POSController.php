@@ -12,6 +12,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\OrderModel;
 use App\Models\OrdersModel;
 use App\Models\User;
+use App\Models\NotificationModel;
 class POSController extends Controller
 {
     //
@@ -31,7 +32,11 @@ class POSController extends Controller
         $cart = Cart::content();
         $used = "true";
         $not_enough = "Credit unusable";
-        return view('pos', compact('credit_found',  'credit', 'customer_phone_number', 'products', 'cart', 'used', 'not_enough'));
+        $notification = NotificationModel::where('customer_phone_number', $customer_phone_number)->get();
+        if (!$notification){
+             $notification = "ok";
+        }
+        return view('pos', compact('credit_found',  'credit', 'customer_phone_number', 'products', 'cart', 'used', 'not_enough', 'notification'));
     }
     public function fetch_credit( Request $request){
 
@@ -45,17 +50,26 @@ class POSController extends Controller
             $credit = "Phone number not found";
             $credit_found = "false";
         }
+        $notification = NotificationModel::where('customer_phone_number', $customer_phone_number)->get();
+        if (!$notification){
+             $notification = "ok";
+        }
         $products = ProductModel::all();
         $cart = Cart::content();
         $used = "true";
         
-        return view('pos', compact('credit_found',  'credit', 'customer_phone_number', 'products', 'cart', 'used'));
+        return view('pos', compact('credit_found',  'credit', 'customer_phone_number', 'products', 'cart', 'used', 'notification'));
     }
     public function index(){
         $products = ProductModel::all();
         $cart = Cart::content();
         // dd($cart);
-        return view('pos', compact('products', 'cart'));
+        $customer_phone_number = auth()->user()->customer_phone_number;
+       $notification = NotificationModel::where('customer_phone_number', $customer_phone_number)->get();
+       if (!$notification){
+            $notification = "ok";
+       }
+        return view('employee.index', compact('products', 'cart', 'notification'));
  
     }
     public function add_table(Request $request){

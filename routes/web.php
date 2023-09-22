@@ -64,20 +64,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/product/view_product/{product_code}', [ProductController::class, 'view_product'])->name('product.view_product');
 
 
-    Route::get('/pos', [POSController::class, 'index'])->name('pos.index');
-    Route::get('/pos/add/{id}', [POSController::class, 'add'])->name('pos.add');
-    Route::get('/pos/add_table', [POSController::class, 'add_table'])->name('pos.add_table');
-    Route::get('/pos/manage', [POSController::class, 'manage'])->name('pos.manage');
-    Route::get('/pos/print_pdf/{id}', [POSController::class, 'print_pdf'])->name('pos.print_pdf');
-    Route::get('/pos/view_pdf/{id}', [POSController::class, 'view_pdf'])->name('pos.view_pdf');
-    Route::get('/pos/delete/{id}', [POSController::class, 'delete'])->name('pos.delete');
 
-
-    Route::post('/', [CartController::class, 'add'])->name('cart.add');
-    Route::post('/add_to_cart', [CartController::class, 'add_barcode'])->name('cart.add_barcode');
-
-    Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
-    Route::post('/create_order', [CartController::class, 'create_order'])->name('cart.create_order');
 
 
     Route::get('/supplier/manage_supplier', [SupplierController::class, 'index'])->name('supplier.index');
@@ -88,6 +75,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         return view('supplier.add_supplier');
     });
 
+    Route::get('/pos/manage', [POSController::class, 'manage'])->name('pos.manage');
+    Route::get('/pos/view_pdf/{id}', [POSController::class, 'view_pdf'])->name('pos.view_pdf');
+    Route::get('/pos/print_pdf/{id}', [POSController::class, 'print_pdf'])->name('pos.print_pdf');
+    Route::get('/pos/delete/{id}', [POSController::class, 'delete'])->name('pos.delete');
 
 
 });
@@ -96,6 +87,16 @@ require __DIR__ . '/auth.php';
 
 Route::middleware(['auth','role:employee' ])->group(function(){
     Route::get('/employee/index', [EmployeeController::class, 'index'])->name('employee.index');
+    Route::get('/pos', [POSController::class, 'index'])->name('pos.index');
+    Route::get('/pos/add/{id}', [POSController::class, 'add'])->name('pos.add');
+    Route::get('/pos/add_table', [POSController::class, 'add_table'])->name('pos.add_table');
+
+    Route::post('/', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/add_to_cart', [CartController::class, 'add_barcode'])->name('cart.add_barcode');
+
+    Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/create_order', [CartController::class, 'create_order'])->name('cart.create_order');
+
 
 });
 Route::middleware(['auth','role:customer'])->group(function(){

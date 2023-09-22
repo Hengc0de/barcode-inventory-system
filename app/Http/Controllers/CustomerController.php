@@ -25,7 +25,7 @@ class CustomerController extends Controller
             $sum_of_bought_price += $odp->product_price;
        }
        
-       $notification = NotificationModel::where('customer_phone_number', $customer_phone_number)->get();
+       $notification = NotificationModel::where('customer_phone_number', $customer_phone_number)->orderBy('noti_id', 'DESC')->limit(5)->get();
        if (!$notification){
             $notification = "ok";
        }

@@ -1,5 +1,9 @@
 
-    
+    <script>
+        $.("nav-icon").on("click",function(){
+            alert('clice');
+        })
+    </script>
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
@@ -29,10 +33,14 @@
 
                 <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                     <i class="bi bi-bell"></i>
+                    @if (count($notification) > 0)
                     <span class="badge bg-primary badge-number">{{count($notification)}}</span>
+                        
+                    @endif
                 </a><!-- End Notification Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+
                     <li class="dropdown-header">
                         You have {{count($notification)}} new notifications
                         <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>

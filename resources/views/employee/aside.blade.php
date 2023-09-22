@@ -5,17 +5,14 @@
             Main
         </li>
         <li class="nav-item">
-            <a class="nav-link " href="{{url('index')}}">
+            <a class="nav-link " href="{{url('pos')}}">
                 <i class="bi bi-grid"></i>
-                <span>Dashboard</span>
-            </a>
+                <span>POS</span>
+            </a> 
         </li><!-- End Dashboard Nav -->
-
-        <li class="nav-heading">
-            Features
-        </li>
-        
-
+    {{-- <li class="nav-heading">
+        Features
+    </li> --}}
 
         
 {{-- 
